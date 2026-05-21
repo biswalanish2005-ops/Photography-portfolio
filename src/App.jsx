@@ -1,23 +1,20 @@
 import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import StorySection from './components/StorySection';
-import PortfolioGrid from './components/PortfolioGrid';
-import Testimonial from './components/Testimonial';
-import About from './components/About';
 import Footer from './components/Footer';
+import Home from './pages/Home';
+import PortfolioPage from './pages/PortfolioPage';
 
 function App() {
   return (
-    <>
+    <BrowserRouter>
       <Navbar />
-      <Hero />
-      <StorySection />
-      <PortfolioGrid />
-      <Testimonial />
-      <About />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/portfolio" element={<PortfolioPage />} />
+      </Routes>
       <Footer />
-    </>
+    </BrowserRouter>
   );
 }
 

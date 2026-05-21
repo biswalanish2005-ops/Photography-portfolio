@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 export default function Hero() {
   return (
@@ -35,9 +36,9 @@ export default function Hero() {
           animate={{ opacity: 1 }}
           transition={{ duration: 1.2, delay: 1 }}
         >
-          <a href="#portfolio" className="btn-outline">
+          <Link to="/portfolio" className="btn-outline">
             View Portfolio
-          </a>
+          </Link>
         </motion.div>
       </div>
     </section>

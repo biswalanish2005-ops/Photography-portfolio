@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 
 export default function Navbar() {
@@ -22,15 +23,21 @@ export default function Navbar() {
   return (
     <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
       <div className="nav-brand">
-        ANISH BISWAL
+        <Link to="/">ANISH BISWAL</Link>
       </div>
       
       <ul className="nav-links">
         {navItems.map((item) => (
           <li key={item}>
-            <a href={`#${item.toLowerCase()}`} className="nav-link">
-              {item}
-            </a>
+            {item === 'Portfolio' ? (
+              <Link to="/portfolio" className="nav-link">Portfolio</Link>
+            ) : item === 'Home' ? (
+              <Link to="/" className="nav-link">Home</Link>
+            ) : (
+              <a href={`/#${item.toLowerCase()}`} className="nav-link">
+                {item}
+              </a>
+            )}
           </li>
         ))}
       </ul>
