@@ -1,6 +1,5 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 
 export default function Hero() {
   return (
@@ -30,16 +29,6 @@ export default function Hero() {
         >
           Documenting authentic emotions with a cinematic editorial lens
         </motion.p>
-        
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.2, delay: 1 }}
-        >
-          <Link to="/portfolio" className="btn-outline">
-            View Portfolio
-          </Link>
-        </motion.div>
       </div>
     </section>
   );

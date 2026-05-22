@@ -18,7 +18,7 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navItems = ['Home', 'Portfolio', 'Films', 'Stories', 'About', 'Contact', 'FAQ', 'Blog'];
+  const navItems = ['Home', 'Portfolio', 'Films', 'Stories', 'About', 'Contact', 'Blog'];
 
   return (
     <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>

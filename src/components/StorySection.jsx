@@ -31,31 +31,38 @@ export default function StorySection() {
 }
 
 function StoryRow({ story, index }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const imageRef = useRef(null);
+  const contentRef = useRef(null);
+  
+  // Image triggers earlier
+  const isImageInView = useInView(imageRef, { once: true, margin: "0px 0px -10% 0px" });
+  // Content triggers later (approx half scroll)
+  const isContentInView = useInView(contentRef, { once: true, margin: "0px 0px -40% 0px" });
 
   const isLandscape = story.type === 'landscape';
 
   return (
-    <div className={`story-row ${isLandscape ? 'story-landscape' : ''}`} ref={ref}>
+    <div className="story-row">
       <motion.div 
+        ref={imageRef}
         className="story-image-wrapper"
-        initial={{ opacity: 0, y: 50 }}
-        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+        initial={{ opacity: 0, y: 80, scale: 1.05 }}
+        animate={isImageInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 80, scale: 1.05 }}
+        transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
       >
         <div 
           className="story-bg-blur" 
           style={{ backgroundImage: `url('${story.image}')` }}
         />
-        <img src={story.image} alt={story.title} className="story-image" />
+        <img src={story.image} alt={story.title} className={`story-image ${isLandscape ? 'landscape' : ''}`} />
       </motion.div>
       
       <motion.div 
+        ref={contentRef}
         className="story-content"
-        initial={{ opacity: 0, x: isLandscape ? 0 : (index % 2 === 0 ? 30 : -30), y: isLandscape ? 30 : 0 }}
-        animate={isInView ? { opacity: 1, x: 0, y: 0 } : { opacity: 0, x: isLandscape ? 0 : (index % 2 === 0 ? 30 : -30), y: isLandscape ? 30 : 0 }}
-        transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+        initial={{ opacity: 0, x: index % 2 === 0 ? 40 : -40, y: 40 }}
+        animate={isContentInView ? { opacity: 1, x: 0, y: 0 } : { opacity: 0, x: index % 2 === 0 ? 40 : -40, y: 40 }}
+        transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
       >
         <span className="story-label">{story.label}</span>
         <h2 className="story-title editorial-title">{story.title}</h2>
