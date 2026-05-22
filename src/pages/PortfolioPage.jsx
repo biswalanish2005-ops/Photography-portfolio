@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const allPhotos = [
   { id: 1, src: '/Photos/DSC_0101 (1).jpg', title: 'Kyoto Artisans' },
@@ -20,6 +20,8 @@ const allPhotos = [
 ];
 
 export default function PortfolioPage() {
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -54,8 +56,14 @@ export default function PortfolioPage() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: (index % 10) * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              onClick={() => setSelectedPhoto(img)}
             >
-              <img src={img.src} alt={img.title} loading="lazy" />
+              <motion.img 
+                layoutId={`photo-page-${img.id}`}
+                src={img.src} 
+                alt={img.title} 
+                loading="lazy" 
+              />
               <div className="grid-overlay">
                 <h3 className="grid-title">{img.title}</h3>
               </div>
@@ -63,6 +71,50 @@ export default function PortfolioPage() {
           ))}
         </div>
       </div>
+
+      <AnimatePresence>
+        {selectedPhoto && (
+          <motion.div 
+            className="popup-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            onClick={() => setSelectedPhoto(null)}
+          >
+            <div className="popup-container">
+              <div className="popup-content-wrapper" onClick={(e) => e.stopPropagation()}>
+                <div className="popup-image-container">
+                  <motion.img 
+                    layoutId={`photo-page-${selectedPhoto.id}`}
+                    src={selectedPhoto.src}
+                    alt={selectedPhoto.title}
+                    className="popup-image"
+                    transition={{ type: 'spring', stiffness: 280, damping: 28 }}
+                  />
+                </div>
+                
+                <motion.div 
+                  className="popup-caption-panel"
+                  initial={{ opacity: 0, x: 40, y: 15 }}
+                  animate={{ opacity: 1, x: 0, y: 0 }}
+                  exit={{ opacity: 0, x: 25, y: 5 }}
+                  transition={{ duration: 0.6, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <span className="popup-photo-meta">Curated Frame • Archive {selectedPhoto.id}</span>
+                  <h3>{selectedPhoto.title}</h3>
+                  <p className="popup-photo-desc">
+                    Captured with cinematic editorial lenses, focusing on natural light, texture, and authentic human or landscape geometries.
+                  </p>
+                  <button className="popup-close-btn" onClick={() => setSelectedPhoto(null)}>
+                    Close
+                  </button>
+                </motion.div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
